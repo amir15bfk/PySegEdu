@@ -6,7 +6,7 @@ from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
 import torch
 
-# download.download()
+download.download()
 
 experiment = SegmentationExperiment(
     exp_name = "352 10ep",
