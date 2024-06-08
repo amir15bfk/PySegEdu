@@ -10,7 +10,7 @@ import torch
 
 experiment = SegmentationExperiment(
     exp_name = "352 10ep",
-    dataset = "CVC",
+    dataset = "B",
     model = fcn2.FCN8s(),
     load = False,
     model_source = "Trained_models/FCBFormer_Kvasir_best.pt",

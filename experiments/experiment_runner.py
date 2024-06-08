@@ -168,12 +168,20 @@ class SegmentationExperiment:
         if self.dataset == "Kvasir":
             img_path = os.path.join(self.root, "Kvasir-SEG/images/*")
             depth_path = os.path.join(self.root, "Kvasir-SEG/masks/*")
+            input_paths = sorted(glob.glob(img_path))
+            target_paths = sorted(glob.glob(depth_path))
         elif self.dataset == "CVC":
             img_path = os.path.join(self.root, "CVC-ClinicDB/Original/*")
             depth_path = os.path.join(self.root, "CVC-ClinicDB/Ground Truth/*")
-        
-        input_paths = sorted(glob.glob(img_path))
-        target_paths = sorted(glob.glob(depth_path))
+            input_paths = sorted(glob.glob(img_path))
+            target_paths = sorted(glob.glob(depth_path))
+        elif self.dataset == "B":
+            img_path1 = os.path.join(self.root, "Kvasir-SEG/images/*")
+            depth_path1 = os.path.join(self.root, "Kvasir-SEG/masks/*")
+            img_path2 = os.path.join(self.root, "CVC-ClinicDB/Original/*")
+            depth_path2 = os.path.join(self.root, "CVC-ClinicDB/Ground Truth/*")
+            input_paths = sorted(glob.glob(img_path1))+sorted(glob.glob(img_path2))
+            target_paths = sorted(glob.glob(depth_path1))+ sorted(glob.glob(depth_path2))
         
         return dataloaders.get_dataloaders(input_paths, target_paths, batch_size=self.batch_size, num_workers=self.num_workers,input_dims = self.size,seed = self.seed)
 
