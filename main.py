@@ -11,7 +11,7 @@ import torch
 experiment = SegmentationExperiment(
     exp_name = "352 10ep",
     dataset = "B",
-    model = doubleunet.doubleunet(),
+    model = doubleunet.build_doubleunet(),
     load = False,
     model_source = "Trained_models/FCBFormer_Kvasir_best.pt",
     root="./data",
