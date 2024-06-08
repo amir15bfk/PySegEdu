@@ -35,34 +35,34 @@ def extract_rar(file_path, extract_to):
 
 
 def download(path="./data"):
-    # # Create the data folder if it doesn't exist
-    # os.makedirs(path, exist_ok=True)
+    # Create the data folder if it doesn't exist
+    os.makedirs(path, exist_ok=True)
 
-    # # URLs to download
-    # kvasir_seg_url = "https://datasets.simula.no/downloads/kvasir-seg.zip"
-    # pvt_model_url = "https://github.com/whai362/PVT/releases/download/v2/pvt_v2_b3.pth"
-    # cvc_clinicdb_url = "https://www.dropbox.com/s/p5qe9eotetjnbmq/CVC-ClinicDB.rar?dl=1"
+    # URLs to download
+    kvasir_seg_url = "https://datasets.simula.no/downloads/kvasir-seg.zip"
+    pvt_model_url = "https://github.com/whai362/PVT/releases/download/v2/pvt_v2_b3.pth"
+    cvc_clinicdb_url = "https://www.dropbox.com/s/p5qe9eotetjnbmq/CVC-ClinicDB.rar?dl=1"
 
-    # # Paths to save the downloads
-    # kvasir_zip_path = os.path.join(path, "kvasir-seg.zip")
-    # pvt_model_path = os.path.join(path, "pvt_v2_b3.pth")
+    # Paths to save the downloads
+    kvasir_zip_path = os.path.join(path, "kvasir-seg.zip")
+    pvt_model_path = os.path.join(path, "pvt_v2_b3.pth")
     cvc_rar_path = os.path.join(path, "CVC-ClinicDB.rar")
 
-    # # Download the kvasir-seg dataset
-    # download_file(kvasir_seg_url, kvasir_zip_path)
+    # Download the kvasir-seg dataset
+    download_file(kvasir_seg_url, kvasir_zip_path)
 
-    # # Unzip the kvasir-seg.zip file
-    # extract_zip(kvasir_zip_path, path)
+    # Unzip the kvasir-seg.zip file
+    extract_zip(kvasir_zip_path, path)
     
-    # # Optionally, remove the zip file after extraction
-    # os.remove(kvasir_zip_path)
-    # print(f"Removed {kvasir_zip_path}")
+    # Optionally, remove the zip file after extraction
+    os.remove(kvasir_zip_path)
+    print(f"Removed {kvasir_zip_path}")
 
-    # # Download the PVT model
-    # download_file(pvt_model_url, pvt_model_path)
+    # Download the PVT model
+    download_file(pvt_model_url, pvt_model_path)
 
-    # # Download the CVC-ClinicDB dataset
-    # download_file(cvc_clinicdb_url, cvc_rar_path)
+    # Download the CVC-ClinicDB dataset
+    download_file(cvc_clinicdb_url, cvc_rar_path)
 
     # Extract the CVC-ClinicDB.rar file
     extract_rar(cvc_rar_path, path)
