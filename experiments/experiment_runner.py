@@ -157,7 +157,7 @@ class SegmentationExperiment:
             self.model.load_state_dict(checkpoint["model_state_dict"])
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.train_dataloader, _, self.val_dataloader = self._get_dataloaders()
+        self.train_dataloader, self.test_kvasir_dataloader, self.test_cvc_dataloader, self.val_dataloader = self._get_dataloaders()
         self.Dice_loss = losses.SoftDiceLoss()
         self.BCE_loss = nn.BCELoss()
         self.perf = metrics.DiceScore()
@@ -211,7 +211,7 @@ class SegmentationExperiment:
         return np.mean(loss_accumulator)
 
     @torch.no_grad()
-    def test(self, epoch):
+    def val(self, epoch):
         self.model.eval()
         perf_accumulator = []
         t = time.time()
@@ -219,17 +219,51 @@ class SegmentationExperiment:
             data, target = data.to(self.device), target.to(self.device)
             output = self.model(data)
             perf_accumulator.append(self.perf(output, target).item())
-            print(f"\rTest  Epoch: {epoch} [{batch_idx + 1}/{len(self.val_dataloader)} "
+            print(f"\rval  Epoch: {epoch} [{batch_idx + 1}/{len(self.val_dataloader)} "
                   f"({100.0 * (batch_idx + 1) / len(self.val_dataloader):.1f}%)]\tAverage performance: "
                   f"{np.mean(perf_accumulator):.6f}\tTime: {time.time() - t:.6f}", end="")
-        print(f"\rTest  Epoch: {epoch} [{len(self.val_dataloader)}/{len(self.val_dataloader)} "
+        print(f"\rval  Epoch: {epoch} [{len(self.val_dataloader)}/{len(self.val_dataloader)} "
               f"(100.0%)]\tAverage performance: {np.mean(perf_accumulator):.6f}\tTime: {time.time() - t:.6f}")
         return np.mean(perf_accumulator), np.std(perf_accumulator)
     
 
+    def test_on_dataset(self,dataset,dataloader,metrics=None):
+        metrics = [self.perf] if metrics==None else metrics
+        perf_accumulator = dict()
+        for m in metrics:
+            perf_accumulator[m.name]=[]
+        t = time.time()
+        for batch_idx, (data, target) in enumerate(dataloader):
+            data, target = data.to(self.device), target.to(self.device)
+            output = self.model(data)
+            for m in metrics:
+                perf_accumulator[m.name].append(m(output, target).item())
+            print(f"\rTest on {dataset} [{batch_idx + 1}/{len(dataloader)} "
+                f"({100.0 * (batch_idx + 1) / len(dataloader):.1f}%)] \tTime: {time.time() - t:.6f}", end="")
+        print(f"\rTest on {dataset} [{len(dataloader)}/{len(dataloader)}(100%)]\tTime: {time.time() - t:.6f}")
+        print("results :")
+        for m in metrics:
+            print(f" {m.name} : {np.mean(perf_accumulator[m.name])*100:.4f} %")
+
+    @torch.no_grad()
+    def test(self,metrics=None):
+        self.model.eval()
+        if self.dataset=="B":
+            self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics)
+            
+            self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics)
+        elif self.dataset=="CVC":
+            self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics)
+        elif self.dataset=="Kvasir":
+            self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics)
+    
 
     def run_test(self):
-        self.test(0)
+        self.test()
+    
+    def report(self):
+        print(self.dataset)
+        self.test(metrics=[metrics.PrecisionScore(),metrics.RecallScore(),metrics.F1Score(),metrics.DiceScore(),metrics.mIoUScore()])
 
     def run_experiment(self):
         if not os.path.exists("./Trained_models"):
@@ -244,7 +278,7 @@ class SegmentationExperiment:
         for epoch in range(1, self.epochs + 1):
             try:
                 loss = self.train_epoch(epoch)
-                test_measure_mean, test_measure_std = self.test(epoch)
+                test_measure_mean, test_measure_std = self.val(epoch)
             except KeyboardInterrupt:
                 print("Training interrupted by user")
                 break
