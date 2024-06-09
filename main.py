@@ -6,12 +6,13 @@ from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
 import torch
 
-# download.download()
+
+download.download()
 
 experiment = SegmentationExperiment(
     exp_name = "352 50ep",
     dataset = "B",
-    model = fcbformer.FCBFormer(),
+    model = unet.Unet(),
     load = False,
     model_source = "Trained_models/DoubleUnet_B_352 50ep_best.pt",
     root="./data",
