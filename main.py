@@ -9,7 +9,7 @@ import torch
 download.download()
 
 experiment = SegmentationExperiment(
-    exp_name = "352 50ep",
+    exp_name = "128 100ep",
     dataset = "B",
     model = unet.Unet(),
     load = False,
