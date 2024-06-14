@@ -6,18 +6,18 @@ from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
 import torch
 
-download.download()
+# download.download()
 
 experiment = SegmentationExperiment(
-    exp_name = "128 100ep",
+    exp_name = "352 50ep",
     dataset = "B",
-    model = unet.Unet(),
+    model = doubleunet.build_doubleunet(),
     load = False,
     model_source = "Trained_models/Unet_B_128 100ep_best.pt",
     root="./data",
-    size = (128,128),
-    epochs=100,
-    batch_size=8,
+    size = (352,352),
+    epochs=50,
+    batch_size=4,
     num_workers = 0,
     lr=1e-4,#1-4
     lrs=True,#true

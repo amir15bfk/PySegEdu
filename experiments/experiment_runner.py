@@ -199,7 +199,7 @@ class SegmentationExperiment:
             data, target = data.to(self.device), target.to(self.device)
             self.optimizer.zero_grad()
             output = self.model(data)
-            loss = self.Dice_loss(output, target)  + self.BCE_loss(torch.sigmoid(output), target)
+            loss = self.Dice_loss(output, target) + self.BCE_loss(torch.sigmoid(output), target)
             loss.backward()
             self.optimizer.step()
             loss_accumulator.append(loss.item())
