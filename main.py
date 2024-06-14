@@ -1,22 +1,24 @@
 import multiprocessing
 multiprocessing.freeze_support()
 from experiments.experiment_runner import SegmentationExperiment
-import torch.multiprocessing as mp
 from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
-import torch
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
 
 download.download()
 
 experiment = SegmentationExperiment(
-    exp_name = "352 50ep",
+    exp_name = "352 100ep",
     dataset = "B",
     model = doubleunet.build_doubleunet(),
     load = False,
-    model_source = "Trained_models/Unet_B_128 100ep_best.pt",
+    model_source = "Trained_models/DoubleUnet_B_352 50ep_best2.pt",
     root="./data",
     size = (352,352),
-    epochs=50,
+    epochs=100,
     batch_size=4,
     num_workers = 0,
     lr=1e-4,#1-4
@@ -26,5 +28,5 @@ experiment = SegmentationExperiment(
     seed = 42
     )
 experiment.run_experiment()
-# experiment.report()
+experiment.report(plot=True)
 

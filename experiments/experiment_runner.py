@@ -10,6 +10,7 @@ import torch.nn as nn
 from datasets import dataloaders
 from utils import metrics
 from utils import losses
+from utils import visualizations
 
 
 # class SegmentationExperiment:
@@ -242,29 +243,38 @@ class SegmentationExperiment:
                 f"({100.0 * (batch_idx + 1) / len(dataloader):.1f}%)] \tTime: {time.time() - t:.6f}", end="")
         print(f"\rTest on {dataset} [{len(dataloader)}/{len(dataloader)}(100%)]\tTime: {time.time() - t:.6f}")
         print("results :")
+        out = []
         for m in metrics:
-            print(f" {m.name} : {np.mean(perf_accumulator[m.name])*100:.4f} %")
+            score = np.mean(perf_accumulator[m.name])*100
+            out.append(score)
+            print(f" {m.name} : {score:.4f} %")
+        return (dataset,out)
 
     @torch.no_grad()
     def test(self,metrics=None):
         self.model.eval()
+        out = []
         if self.dataset=="B":
-            self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics)
+            out.append(self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics))
             
-            self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics)
+            out.append(self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics))
         elif self.dataset=="CVC":
-            self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics)
+            out.append(self.test_on_dataset("CVC",self.test_cvc_dataloader,metrics=metrics))
         elif self.dataset=="Kvasir":
-            self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics)
+            out.append(self.test_on_dataset("Kvasir",self.test_kvasir_dataloader,metrics=metrics))
+        return out
     
 
     def run_test(self):
         self.test()
     
-    def report(self):
+    def report(self,plot=False,metrics=[metrics.PrecisionScore(),metrics.RecallScore(),metrics.F1Score(),metrics.DiceScore(),metrics.mIoUScore()]):
         print(self.dataset)
-        self.test(metrics=[metrics.PrecisionScore(),metrics.RecallScore(),metrics.F1Score(),metrics.DiceScore(),metrics.mIoUScore()])
-
+        tests = self.test(metrics=metrics)
+        data = {"Metrics":[i.name for i in metrics]}
+        for (k,v) in tests:
+            data[k] = v
+        visualizations.plot_metrics(data)
     def run_experiment(self):
         if not os.path.exists("./Trained_models"):
             os.makedirs("./Trained_models")
