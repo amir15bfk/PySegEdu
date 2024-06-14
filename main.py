@@ -1,24 +1,23 @@
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 import multiprocessing
 multiprocessing.freeze_support()
 from experiments.experiment_runner import SegmentationExperiment
 from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
-import warnings
-
-warnings.filterwarnings("ignore", category=UserWarning)
 
 
-download.download()
+# download.download()
 
 experiment = SegmentationExperiment(
     exp_name = "352 100ep",
     dataset = "B",
     model = doubleunet.build_doubleunet(),
-    load = False,
-    model_source = "Trained_models/DoubleUnet_B_352 50ep_best2.pt",
+    load = True,
+    model_source = "Trained_models/DoubleUnet_B_352 100ep_last.pt.pt",
     root="./data",
     size = (352,352),
-    epochs=100,
+    epochs=15,
     batch_size=8,
     num_workers = 0,
     lr=1e-4,#1-4
