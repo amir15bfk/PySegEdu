@@ -11,6 +11,7 @@ from datasets import dataloaders
 from utils import metrics
 from utils import losses
 from utils import visualizations
+import matplotlib.pyplot as plt
 
 
 # class SegmentationExperiment:
@@ -275,6 +276,53 @@ class SegmentationExperiment:
         for (k,v) in tests:
             data[k] = v
         visualizations.plot_metrics(data)
+    
+    def plot_predictions(self, num_samples=5, output_dir='out'):
+        # Ensure the output directory exists
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        self.model.eval()
+        dataloader = self.val_dataloader if self.val_dataloader else self.test_kvasir_dataloader
+
+        for idx, (data, target) in enumerate(dataloader):
+            if idx >= num_samples:
+                break
+
+            data, target = data.to(self.device), target.to(self.device)
+            output = self.model(data)
+
+            data = data.cpu().numpy().transpose(0, 2, 3, 1)
+            target = target.cpu().numpy().transpose(0, 2, 3, 1)
+            output = torch.sigmoid(output).detach().cpu().numpy().transpose(0, 2, 3, 1)
+
+            for i in range(data.shape[0]):
+                # Save input image (assuming it's a single-channel grayscale image)
+                input_image = data[i, :, :, 0]  # Extract the first channel
+
+                # Ensure input image is in [0, 1] range
+                input_image = input_image - np.min(input_image)
+                input_image = input_image / np.max(input_image)
+
+                plt.imsave(os.path.join(output_dir, f"sample_{idx * data.shape[0] + i}_input.png"), input_image, cmap='gray')
+
+                # Save ground truth mask
+                gt_mask = target[i, :, :, 0]  # Extract the first channel
+
+                # Ensure ground truth mask is in [0, 1] range
+                gt_mask = gt_mask - np.min(gt_mask)
+                gt_mask = gt_mask / np.max(gt_mask)
+
+                plt.imsave(os.path.join(output_dir, f"sample_{idx * data.shape[0] + i}_ground_truth.png"), gt_mask, cmap='gray')
+
+                # Save predicted mask
+                pred_mask = output[i, :, :, 0]  # Extract the first channel
+
+                # Ensure predicted mask is in [0, 1] range
+                pred_mask = pred_mask - np.min(pred_mask)
+                pred_mask = pred_mask / np.max(pred_mask)
+
+                plt.imsave(os.path.join(output_dir, f"sample_{idx * data.shape[0] + i}_predicted.png"), pred_mask, cmap='gray')
     def run_experiment(self):
         if not os.path.exists("./Trained_models"):
             os.makedirs("./Trained_models")
@@ -289,6 +337,7 @@ class SegmentationExperiment:
             try:
                 loss = self.train_epoch(epoch)
                 test_measure_mean, test_measure_std = self.val(epoch)
+                self.report()
             except KeyboardInterrupt:
                 print("Training interrupted by user")
                 break

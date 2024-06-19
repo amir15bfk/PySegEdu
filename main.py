@@ -7,17 +7,17 @@ from utils import download
 from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
 
 
-# download.download()
+download.download()
 
 experiment = SegmentationExperiment(
     exp_name = "352 100ep",
     dataset = "B",
-    model = doubleunet.build_doubleunet(),
-    load = True,
+    model = fcbformer.FCBFormer(),
+    load = False,
     model_source = "Trained_models/DoubleUnet_B_352 100ep_last.pt",
     root="./data",
     size = (352,352),
-    epochs=15,
+    epochs=100,
     batch_size=8,
     num_workers = 0,
     lr=1e-4,#1-4
