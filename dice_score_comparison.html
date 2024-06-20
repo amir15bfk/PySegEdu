@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bokeh Plot</title>
+    <style>
+      html, body {
+        box-sizing: border-box;
+        display: flow-root;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+  </head>
+  <body>
+    <div id="d29138eb-d044-4c6a-a542-5cba5d31fd99" data-root-id="p1210" style="display: contents;"></div>
+  
+    <script type="application/json" id="c1068a8b-6a57-4632-92f7-a114137c0472">
+      {"3bd35c7c-ec59-4318-8719-f136cfdee13c":{"version":"3.4.1","title":"Bokeh Application","roots":[{"type":"object","name":"Figure","id":"p1210","attributes":{"height":400,"x_range":{"type":"object","name":"FactorRange","id":"p1220","attributes":{"factors":["FCN","UNet","DoubleUNet","FCBFormer"],"range_padding":0.1}},"y_range":{"type":"object","name":"DataRange1d","id":"p1212","attributes":{"start":50,"end":100}},"x_scale":{"type":"object","name":"CategoricalScale","id":"p1221"},"y_scale":{"type":"object","name":"LinearScale","id":"p1222"},"title":{"type":"object","name":"Title","id":"p1213","attributes":{"text":"Dice Score Comparison"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1250","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1207","attributes":{"selected":{"type":"object","name":"Selection","id":"p1208","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1209"},"data":{"type":"map","entries":[["models",["FCN","UNet","DoubleUNet","FCBFormer"]],["Kvasir-SEG",[67.35,82.6,89.27,91.9]],["CVC-ClinicDB",[72.18,87.09,91.54,92.95]]]}}},"view":{"type":"object","name":"CDSView","id":"p1251","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1252"}}},"glyph":{"type":"object","name":"VBar","id":"p1247","attributes":{"x":{"type":"field","field":"models","transform":{"type":"object","name":"Dodge","id":"p1243","attributes":{"value":-0.25,"range":{"id":"p1220"}}}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"Kvasir-SEG"},"line_color":{"type":"value","value":"#c9d9d3"},"fill_color":{"type":"value","value":"#c9d9d3"},"hatch_color":{"type":"value","value":"#c9d9d3"}}},"nonselection_glyph":{"type":"object","name":"VBar","id":"p1248","attributes":{"x":{"type":"field","field":"models","transform":{"id":"p1243"}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"Kvasir-SEG"},"line_color":{"type":"value","value":"#c9d9d3"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#c9d9d3"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#c9d9d3"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"VBar","id":"p1249","attributes":{"x":{"type":"field","field":"models","transform":{"id":"p1243"}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"Kvasir-SEG"},"line_color":{"type":"value","value":"#c9d9d3"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#c9d9d3"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#c9d9d3"},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p1262","attributes":{"data_source":{"id":"p1207"},"view":{"type":"object","name":"CDSView","id":"p1263","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1264"}}},"glyph":{"type":"object","name":"VBar","id":"p1259","attributes":{"x":{"type":"field","field":"models","transform":{"type":"object","name":"Dodge","id":"p1255","attributes":{"value":0.25,"range":{"id":"p1220"}}}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"CVC-ClinicDB"},"line_color":{"type":"value","value":"#718dbf"},"fill_color":{"type":"value","value":"#718dbf"},"hatch_color":{"type":"value","value":"#718dbf"}}},"nonselection_glyph":{"type":"object","name":"VBar","id":"p1260","attributes":{"x":{"type":"field","field":"models","transform":{"id":"p1255"}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"CVC-ClinicDB"},"line_color":{"type":"value","value":"#718dbf"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#718dbf"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#718dbf"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"VBar","id":"p1261","attributes":{"x":{"type":"field","field":"models","transform":{"id":"p1255"}},"width":{"type":"value","value":0.2},"top":{"type":"field","field":"CVC-ClinicDB"},"line_color":{"type":"value","value":"#718dbf"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#718dbf"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#718dbf"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1219","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1233"},{"type":"object","name":"WheelZoomTool","id":"p1234","attributes":{"renderers":"auto"}},{"type":"object","name":"BoxZoomTool","id":"p1235","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1236","attributes":{"syncable":false,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5}}}},{"type":"object","name":"ResetTool","id":"p1241"},{"type":"object","name":"SaveTool","id":"p1242"}]}},"toolbar_location":"above","left":[{"type":"object","name":"LinearAxis","id":"p1228","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1229","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1230"},"axis_label":"Dice Score (%)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1231"}}}],"below":[{"type":"object","name":"CategoricalAxis","id":"p1223","attributes":{"ticker":{"type":"object","name":"CategoricalTicker","id":"p1224"},"formatter":{"type":"object","name":"CategoricalTickFormatter","id":"p1225"},"axis_label":"Models","major_label_policy":{"type":"object","name":"AllLabels","id":"p1226"}}}],"center":[{"type":"object","name":"Grid","id":"p1227","attributes":{"axis":{"id":"p1223"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1232","attributes":{"dimension":1,"axis":{"id":"p1228"}}},{"type":"object","name":"Legend","id":"p1253","attributes":{"location":"bottom_left","orientation":"horizontal","items":[{"type":"object","name":"LegendItem","id":"p1254","attributes":{"label":{"type":"value","value":"Kvasir-SEG"},"renderers":[{"id":"p1250"}]}},{"type":"object","name":"LegendItem","id":"p1265","attributes":{"label":{"type":"value","value":"CVC-ClinicDB"},"renderers":[{"id":"p1262"}]}}]}}]}}]}}
+    </script>
+    <script type="text/javascript">
+      (function() {
+        const fn = function() {
+          Bokeh.safely(function() {
+            (function(root) {
+              function embed_document(root) {
+              const docs_json = document.getElementById('c1068a8b-6a57-4632-92f7-a114137c0472').textContent;
+              const render_items = [{"docid":"3bd35c7c-ec59-4318-8719-f136cfdee13c","roots":{"p1210":"d29138eb-d044-4c6a-a542-5cba5d31fd99"},"root_ids":["p1210"]}];
+              root.Bokeh.embed.embed_items(docs_json, render_items);
+              }
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+              } else {
+                let attempts = 0;
+                const timer = setInterval(function(root) {
+                  if (root.Bokeh !== undefined) {
+                    clearInterval(timer);
+                    embed_document(root);
+                  } else {
+                    attempts++;
+                    if (attempts > 100) {
+                      clearInterval(timer);
+                      console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                    }
+                  }
+                }, 10, root)
+              }
+            })(window);
+          });
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+      })();
+    </script>
+  </body>
+</html>

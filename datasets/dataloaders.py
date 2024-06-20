@@ -80,12 +80,15 @@ def get_dataloaders(input_paths, target_paths, batch_size, num_workers,input_dim
     val_dataset = data.Subset(val_dataset, val_indices)
 
 
+    # test_kvasir = [[i for i in test_indices if input_paths[i].endswith("jpg")][3]]
+    # test_cvc = [[i for i in test_indices if input_paths[i].endswith("tif")][3]]
+    # test_dataset_kvasir = data.Subset(test_dataset, test_kvasir)
+    # test_dataset_cvc = data.Subset(test_dataset, test_cvc)
+    # print(input_paths[test_cvc[0]])
     test_kvasir = [i for i in test_indices if input_paths[i].endswith("jpg")]
     test_cvc = [i for i in test_indices if input_paths[i].endswith("tif")]
     test_dataset_kvasir = data.Subset(test_dataset, test_kvasir)
     test_dataset_cvc = data.Subset(test_dataset, test_cvc)
-
-
 
 
     train_dataloader = data.DataLoader(

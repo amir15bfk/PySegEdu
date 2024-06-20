@@ -275,15 +275,16 @@ class SegmentationExperiment:
         data = {"Metrics":[i.name for i in metrics]}
         for (k,v) in tests:
             data[k] = v
-        visualizations.plot_metrics(data)
+        if plot:
+            visualizations.plot_metrics(data)
     
-    def plot_predictions(self, num_samples=5, output_dir='out'):
+    def plot_predictions(self, num_samples=1, output_dir='out'):
         # Ensure the output directory exists
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
         self.model.eval()
-        dataloader = self.val_dataloader if self.val_dataloader else self.test_kvasir_dataloader
+        dataloader = self.test_cvc_dataloader
 
         for idx, (data, target) in enumerate(dataloader):
             if idx >= num_samples:
@@ -322,7 +323,7 @@ class SegmentationExperiment:
                 pred_mask = pred_mask - np.min(pred_mask)
                 pred_mask = pred_mask / np.max(pred_mask)
 
-                plt.imsave(os.path.join(output_dir, f"sample_{idx * data.shape[0] + i}_predicted.png"), pred_mask, cmap='gray')
+                plt.imsave(os.path.join(output_dir, f"{self.model.name}.png"), pred_mask, cmap='gray')
     def run_experiment(self):
         if not os.path.exists("./Trained_models"):
             os.makedirs("./Trained_models")
