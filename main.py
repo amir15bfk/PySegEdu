@@ -4,10 +4,13 @@ import multiprocessing
 multiprocessing.freeze_support()
 from experiments.experiment_runner import SegmentationExperiment
 from utils import download
-from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
+from models import fcn,duck_net, unet,fcbformer,doubleunet
 
 
 # download.download()
+
+model = fcbformer.FCBFormer()
+
 
 experiment = SegmentationExperiment(
     exp_name = "352 100ep",
