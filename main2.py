@@ -9,7 +9,7 @@ from models import fcn,duck_net, unet,fcbformer,doubleunet,fcn2
 
 
 
-# download.download()
+download.download()
 out = "out/c3"
 experiment = SegmentationExperiment(
     exp_name = "352 100ep",
