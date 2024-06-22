@@ -26,6 +26,6 @@ experiment = SegmentationExperiment(
     mgpu=False,
     seed = 42
     )
-experiment.run_experiment()
+# experiment.run_experiment()
 experiment.report(plot=True)
 

@@ -276,7 +276,7 @@ class SegmentationExperiment:
         for (k,v) in tests:
             data[k] = v
         if plot:
-            visualizations.plot_metrics(data)
+            visualizations.plot_metrics(data,self.model.name)
     
     def plot_predictions(self, num_samples=1, output_dir='out'):
         # Ensure the output directory exists

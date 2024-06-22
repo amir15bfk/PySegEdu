@@ -3,7 +3,7 @@ from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.transform import dodge
 from bokeh.io import output_notebook
 
-def plot_metrics(data):
+def plot_metrics(data,name=''):
 
     
     source = ColumnDataSource(data=data)
@@ -11,7 +11,7 @@ def plot_metrics(data):
     # Output to notebook
     output_notebook()
     # Create a new plot
-    p = figure(x_range=data['Metrics'], y_range=(0, 100), height=400, title="model performence",
+    p = figure(x_range=data['Metrics'], y_range=(50, 100), height=400, title=f"{name} model performence",
             toolbar_location="above", tools="pan,wheel_zoom,box_zoom,reset,save")
 
     # Add bars for Kvasir and CVC datasets
@@ -37,4 +37,5 @@ def plot_metrics(data):
 
     
     # Show the plot
+
     show(p)
