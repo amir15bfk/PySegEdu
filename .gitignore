@@ -1,3 +1,6 @@
 data/
 Trained_models/
 */__pycache__/
+time_comparison.html
+dice_score_comparison.html
+main3.py

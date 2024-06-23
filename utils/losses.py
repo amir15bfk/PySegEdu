@@ -6,6 +6,8 @@ from scipy.ndimage import zoom
 import torch.nn as nn
 import torch.nn.functional as F
 
+# The SoftDiceLoss class calculates the soft Dice loss between predicted logits and target values in a
+# neural network.
 class SoftDiceLoss(nn.Module):
     def __init__(self, smooth=1):
         super(SoftDiceLoss, self).__init__()

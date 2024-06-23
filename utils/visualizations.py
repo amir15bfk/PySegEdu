@@ -1,10 +1,20 @@
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.transform import dodge
 from bokeh.io import output_notebook
 
 def plot_metrics(data,name=''):
-
+    """
+    The function `plot_metrics` generates a bar plot displaying performance metrics for different
+    datasets, with the option to specify a name for the model.
+    
+    :param data: The `data` parameter in the `plot_metrics` function is a dictionary containing the
+    metrics data for plotting. It should have keys for 'Metrics', 'Kvasir', and 'CVC' with corresponding
+    values for each metric and dataset. The 'Metrics' key should contain the list of metrics
+    :param name: The `name` parameter in the `plot_metrics` function is used to specify the name of the
+    model for which the performance metrics are being plotted. This name will be included in the title
+    of the plot to provide context about which model the metrics belong to. If no `name` is provided,
+    """
     
     source = ColumnDataSource(data=data)
 

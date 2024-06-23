@@ -6,51 +6,9 @@ from torch.utils import data
 import torchvision.transforms.functional as TF
 
 
-import os
-import requests
-import zipfile
-from tqdm import tqdm
-
-def download(path="./data"):
-    # Create the data folder if it doesn't exist
-    os.makedirs(path, exist_ok=True)
-
-    # URL of the file to download
-    url = "https://datasets.simula.no/downloads/kvasir-seg.zip"
-    zip_path = os.path.join(path, "kvasir-seg.zip")
-
-    # Download the file with a progress bar
-    response = requests.get(url, stream=True)
-    if response.status_code == 200:
-        total_size = int(response.headers.get('content-length', 0))
-        with open(zip_path, 'wb') as f, tqdm(
-                desc="Downloading",
-                total=total_size,
-                unit='B',
-                unit_scale=True,
-                unit_divisor=1024,
-        ) as bar:
-            for chunk in response.iter_content(chunk_size=1024):
-                f.write(chunk)
-                bar.update(len(chunk))
-        print(f"Downloaded {zip_path}")
-
-        # Unzip the file
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(path)
-        print(f"Extracted to {path}")
-
-        # remove the zip file after extraction
-        os.remove(zip_path)
-        print(f"Removed {zip_path}")
-    else:
-        print(f"Failed to download the file. Status code: {response.status_code}")
-
-    
-
-
-
-
+# This class defines a PyTorch dataset for semantic segmentation tasks with support for various
+# transformations like horizontal and vertical flips, affine transformations, and custom input and
+# target transformations.
 class SegDataset(data.Dataset):
     def __init__(
         self,

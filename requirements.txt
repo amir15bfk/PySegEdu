@@ -1,3 +1,4 @@
 timm==1.0.3
 patool==2.2.0
 unrar==0.4
+bokeh==3.4.1
