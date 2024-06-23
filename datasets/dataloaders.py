@@ -34,7 +34,7 @@ def split_ids(len_ids,seed):
     )
 
     train_indices, val_indices = train_test_split(
-        train_indices, test_size=test_size, random_state=seed
+        train_indices, test_size=valid_size, random_state=seed
     )
 
     return train_indices, test_indices, val_indices

@@ -24,8 +24,6 @@ def conv2d_same(
 
 
 class Conv2dSame(nn.Conv2d):
-    """Tensorflow like 'SAME' convolution wrapper for 2D convolutions"""
-
     def __init__(
         self,
         in_channels,

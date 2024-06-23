@@ -70,32 +70,6 @@ class PrecisionScore(torch.nn.Module):
         return score
     
 
-class AccuracyScore(torch.nn.Module):
-    # Initialize the class
-    def __init__(self):
-        # Call the init method of the parent class
-        super(AccuracyScore, self).__init__()
-        # Set the name of the class
-        self.name = "Accuracy"
-
-    # Forward method
-    def forward(self, logits, targets):
-        # Get the number of data points
-        num = targets.size(0)
-
-        # Calculate the probabilities using the sigmoid function
-        probs = torch.sigmoid(logits)
-        # Reshape the probabilities
-        m1 = probs.view(num, -1) > 0.5
-        # Reshape the targets
-        m2 = targets.view(num, -1) > 0.5
-        # Calculate the intersection
-        intersection = m1 * m2
-
-        # Calculate the accuracy score
-        score = (intersection.sum(1) / m2.sum(1)).sum() / num
-        # Return the accuracy score
-        return score
 
 
 class RecallScore(torch.nn.Module):
