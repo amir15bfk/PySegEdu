@@ -1,7 +1,7 @@
 # PySegEdu
 
 
-<a href="http://colab.research.google.com/github/eladrich/pixel2style2pixel/blob/master/notebooks/inference_playground.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>  
+<a href="http://colab.research.google.com/github/PySegEdu_Colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>  
 
 
 PySegEdu is an advanced Python library designed for segmentation tasks, offering state-of-the-art models and easy-to-use interfaces for training, testing, and evaluating segmentation models.
