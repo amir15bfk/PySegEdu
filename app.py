@@ -39,41 +39,42 @@ if uploaded_file is not None:
     selected = st.selectbox(
         "select the source ?",
         [i for i in models if i.startswith(option)])
+    if st.button("predict"):
+        st.write("Predicting...")
+        model.load_state_dict(torch.load("Trained_models/"+selected)["model_state_dict"])
+        model.eval()
+        mean = [0.5, 0.5, 0.5]
+        std = [0.5, 0.5, 0.5]
+        transform = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Resize(size),
+                                    transforms.Normalize(mean, std)])
+        transform2 = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Resize(size)])
 
-    model.load_state_dict(torch.load("Trained_models/"+selected)["model_state_dict"])
-    model.eval()
-    mean = [0.5, 0.5, 0.5]
-    std = [0.5, 0.5, 0.5]
-    transform = transforms.Compose([transforms.ToTensor(),
-                                transforms.Resize(size),
-                                transforms.Normalize(mean, std)])
-    transform2 = transforms.Compose([transforms.ToTensor(),
-                                transforms.Resize(size)])
+        # Preprocess  
+        input_tensor = transform(image).float()
+        image_tensor = transform2(image).float()
 
-    # Preprocess  
-    input_tensor = transform(image).float()
-    image_tensor = transform2(image).float()
-
-    # Segment image
-    with torch.no_grad():
-        output_tensor = model(input_tensor.unsqueeze(0))
-        analog_image = torch.sigmoid(output_tensor)
-        pred_masks = (analog_image > 0.5).float()
-    
-    pred_mask = pred_masks[0][0]
-    # Convert NumPy array to PIL image
-    original_image = image
-    img_p = image_tensor
-    for i in range(img_p.shape[1]):
-        for j in range(img_p.shape[2]):
-            if pred_mask[i, j]:
-                img_p[1, i, j] = pred_mask[i, j]*0.9
-                img_p[0, i, j] = img_p[0, i, j] * 0.9
-                img_p[2, i, j] = img_p[2, i, j] * 0.9
-    segmented_image = transforms.ToPILImage()(pred_masks.squeeze())
-    analog_image = transforms.ToPILImage()(analog_image.squeeze())
-    img_p = transforms.ToPILImage()(img_p.squeeze())
-    image_tensor = transforms.ToPILImage()(image_tensor.squeeze())
+        # Segment image
+        with torch.no_grad():
+            output_tensor = model(input_tensor.unsqueeze(0))
+            analog_image = torch.sigmoid(output_tensor)
+            pred_masks = (analog_image > 0.5).float()
+        
+        pred_mask = pred_masks[0][0]
+        # Convert NumPy array to PIL image
+        original_image = image
+        img_p = image_tensor
+        for i in range(img_p.shape[1]):
+            for j in range(img_p.shape[2]):
+                if pred_mask[i, j]:
+                    img_p[1, i, j] = pred_mask[i, j]*0.9
+                    img_p[0, i, j] = img_p[0, i, j] * 0.9
+                    img_p[2, i, j] = img_p[2, i, j] * 0.9
+        segmented_image = transforms.ToPILImage()(pred_masks.squeeze())
+        analog_image = transforms.ToPILImage()(analog_image.squeeze())
+        img_p = transforms.ToPILImage()(img_p.squeeze())
+        image_tensor = transforms.ToPILImage()(image_tensor.squeeze())
 
 
-    st.image([img_p], width=500)
+        st.image([img_p], width=500)
