@@ -1,9 +1,5 @@
 import torch
 import torch.nn as nn
-import numpy as np
-import torch
-from scipy.ndimage import zoom
-import torch.nn as nn
 import torch.nn.functional as F
 
 # The SoftDiceLoss class calculates the soft Dice loss between predicted logits and target values in a
