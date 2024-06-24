@@ -23,7 +23,8 @@ experiment = SegmentationExperiment(
     lrs=True,#true
     lrs_min=1e-6,
     mgpu=False,
-    seed = 42
+    seed = 42,
+    full_loss=True
     )
 experiment.run_experiment()
 experiment.report(plot=True)

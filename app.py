@@ -1,46 +1,10 @@
 import streamlit as st
-import pdf2image
-import numpy as np 
 from PIL import Image
 import torch
 from torchvision import transforms
 from models import fcbformer,fcn2,unet,doubleunet
 import os
 
-
-# Load pretrained UNet 
-model = fcbformer.FCBFormer()
-option = st.selectbox(
-    "select the model ?",
-    ["FCN","Unet","DoubleUnet","FCBFormer"])
-if option == "FCBFormer":
-    model = fcbformer.FCBFormer()
-    size = (352,352)
-elif option == "Unet":
-    model = unet.Unet()
-    size = (128,128)
-elif option == "DoubleUnet":
-    model = doubleunet.build_doubleunet()
-    size = (352,352)
-elif option == "FCN":
-    model = fcn2.FCN8s()
-    size = (352,352)
-    
-models = os.listdir("./Trained_models")
-print(models)
-selected = st.selectbox(
-    "select the source ?",
-    [i for i in models if i.startswith(option)])
-
-model.load_state_dict(torch.load("Trained_models/"+selected)["model_state_dict"])
-model.eval()
-mean = [0.5, 0.5, 0.5]
-std = [0.5, 0.5, 0.5]
-transform = transforms.Compose([transforms.ToTensor(),
-                            transforms.Resize(size),
-                            transforms.Normalize(mean, std)])
-transform2 = transforms.Compose([transforms.ToTensor(),
-                            transforms.Resize(size)])
 st.write("""
 # Segmentation Model Demo
 Upload an image and select a model to perform segmentation.
@@ -48,8 +12,43 @@ Upload an image and select a model to perform segmentation.
 
 uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'png', 'jpeg'])
 
+
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
+    st.image([image], width=500)
+    # Load pretrained UNet 
+    model = fcbformer.FCBFormer()
+    option = st.selectbox(
+        "select the model ?",
+        ["FCN","Unet","DoubleUnet","FCBFormer"])
+    if option == "FCBFormer":
+        model = fcbformer.FCBFormer()
+        size = (352,352)
+    elif option == "Unet":
+        model = unet.Unet()
+        size = (128,128)
+    elif option == "DoubleUnet":
+        model = doubleunet.build_doubleunet()
+        size = (352,352)
+    elif option == "FCN":
+        model = fcn2.FCN8s()
+        size = (352,352)
+
+    models = os.listdir("./Trained_models")
+    print(models)
+    selected = st.selectbox(
+        "select the source ?",
+        [i for i in models if i.startswith(option)])
+
+    model.load_state_dict(torch.load("Trained_models/"+selected)["model_state_dict"])
+    model.eval()
+    mean = [0.5, 0.5, 0.5]
+    std = [0.5, 0.5, 0.5]
+    transform = transforms.Compose([transforms.ToTensor(),
+                                transforms.Resize(size),
+                                transforms.Normalize(mean, std)])
+    transform2 = transforms.Compose([transforms.ToTensor(),
+                                transforms.Resize(size)])
 
     # Preprocess  
     input_tensor = transform(image).float()
