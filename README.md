@@ -1,4 +1,4 @@
-# PySegEdu
+![logo](https://github.com/amir15bfk/PySegEdu/blob/main/logo.webp?raw=true)
 
 
 <a href="http://colab.research.google.com/github/amir15bfk/PySegEdu/blob/main/PySegEdu_Colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>  
